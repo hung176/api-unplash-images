@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+import ImagesPage from './page/ImagesPage';
 
 function App() {
+  const { isLoading, images, error } = useSelector(state => state.images);
+  const dispatch = useDispatch();
+  
+  const onLoadImages = () => {
+    dispatch({ type: 'IMAGE_LOAD' });
+  }
+
+  useEffect(() => {
+    onLoadImages();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ImagesPage
+        isLoading={isLoading}
+        images={images}
+        error={error}
+        onLoadImages={onLoadImages}
+      />
     </div>
   );
 }
